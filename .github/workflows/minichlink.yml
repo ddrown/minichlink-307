@@ -31,7 +31,7 @@ jobs:
       run: tar czf minichlink-307.tar.gz minichlink-307 minichlink-307.so 99-minichlink.rules
     - name: "Pack (Mac)"
       if: ${{ matrix.os == 'macos-12' }}
-      run: tar czf minichlink.tar-307.gz minichlink-307
+      run: tar czf minichlink-307.tar.gz minichlink-307
     # no packing needed for Windows as it's .exe only
 
     - name: "Upload minichlink (Linux)"
