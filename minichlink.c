@@ -9,9 +9,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "ch32v003fun/ch32v003fun.h"
 #include "minichlink.h"
 #include "terminalhelp.h"
+
+#include "ch32v003fun/ch32v003fun.h"
 
 
 #if defined(WINDOWS) || defined(WIN32) || defined(_WIN32)
