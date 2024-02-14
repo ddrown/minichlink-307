@@ -70,6 +70,7 @@ void *MiniCHLinkInitAsDLL(struct MiniChlinkFunctions **MCFO, const init_hints_t 
     iss->sector_size = 64;
     iss->flash_size = 16384;
     iss->target_chip_type = 0;
+    iss->wanted_ram_split = 0;
 
     SetupAutomaticHighLevelFunctions(dev);
 
@@ -144,6 +145,24 @@ int main(int argc, char **argv) {
         switch (argchar[1]) {
             default: fprintf(stderr, "Error: Unknown command %c\n", argchar[1]);
             case 'h': goto help;
+            case 'K': {
+                struct InternalState *iss = (struct InternalState *)(((struct ProgrammerStructBase *)dev)->internal);
+
+                iarg += 1;
+                if (iarg >= argc) {
+                    fprintf(stderr, "-K <KB Ram> command requires an argument of 32/64/128/192 \n\n");
+                    goto help;
+                }
+
+                iss->wanted_ram_split = SimpleReadNumberInt(argv[iarg], -1);
+
+                if (!((iss->wanted_ram_split == 32) || (iss->wanted_ram_split == 64) ||
+                      (iss->wanted_ram_split == 128) || (iss->wanted_ram_split == 192))) {
+                    fprintf(stderr, "-K <KB Ram> - Valid arguments are 32/64/128/192 \n\n");
+                    goto help;
+                }
+            } break;
+
             case '3':
                 if (MCF.Control3v3)
                     MCF.Control3v3(dev, 1);
@@ -569,6 +588,7 @@ help:
     fprintf(stderr, " -A Go into Halt without reboot\n");
     fprintf(stderr, " -D Configure NRST as GPIO\n");
     fprintf(stderr, " -d Configure NRST as NRST\n");
+    fprintf(stderr, " -K [KB Ram] - SET CH307 KB Ram assigned on Boot - Valid arguments 32 / 64 / 128 / 192 \n");
     fprintf(stderr, " -i Show chip info\n");
     fprintf(stderr, " -s [debug register] [value]\n");
     fprintf(stderr, " -m [debug register]\n");
@@ -578,12 +598,12 @@ help:
     fprintf(stderr, " -p Disable Read Protection\n");
     fprintf(stderr, " -w [binary image to write] [address, decimal or 0x, try0x08000000]\n");
     fprintf(
-        stderr, " -r [output binary image] [memory address, decimal or 0x, try 0x08000000] [size, decimal or 0x, "
-                "try 16384]\n"
+        stderr,
+        " -r [output binary image] [memory address, decimal or 0x, try 0x08000000] [size, decimal or 0x, try 16384]\n"
     );
     fprintf(
-        stderr, "   Note: for memory addresses, you can use 'flash' 'launcher' 'bootloader' 'option' 'ram' and "
-                "say \"ram+0x10\" for instance\n"
+        stderr, "   Note: for memory addresses, you can use 'flash' 'launcher' 'bootloader' 'option' 'ram' and say "
+                "\"ram+0x10\" for instance\n"
     );
     fprintf(stderr, "   For filename, you can use - for raw (terminal) or + for hex (inline).\n");
     fprintf(stderr, " -T is a terminal. This MUST be the last argument. Also, will start a gdbserver.\n");

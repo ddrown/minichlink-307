@@ -693,9 +693,32 @@ static int LEWriteBinaryBlob(void *d, uint32_t address_to_write, uint32_t len, u
     int padlen = ((len - 1) & (~(iss->sector_size - 1))) + iss->sector_size;
 
     wch_link_command((libusb_device_handle *)dev, "\x81\x06\x01\x01", 4, 0, 0, 0);
+
+    // Refs
+    // https://github.com/cnlohr/ch32v003fun/issues/232
+    // https://www.eevblog.com/forum/microcontrollers/ch32v307-risc-v-minicore-with-ethernet/msg5195862/#msg5195862
+    switch (iss->wanted_ram_split) {
+            // The byte marked with a v , is the Ram partition byte of interest
+
+        case 32: // Below sets 32K Ram (0xff)                                v
+            wch_link_command((libusb_device_handle *)dev, "\x81\x06\x08\x02\xff\xff\xff\xff\xff\xff\xff", 11, 0, 0, 0);
+            break;
+        case 64: // Below sets 64K Ram (0xbf)                                v
+            wch_link_command((libusb_device_handle *)dev, "\x81\x06\x08\x02\xbf\xff\xff\xff\xff\xff\xff", 11, 0, 0, 0);
+            break;
+        case 96: // Below sets 96K Ram  (0x7f)                               v
+            wch_link_command((libusb_device_handle *)dev, "\x81\x06\x08\x02\x7f\xff\xff\xff\xff\xff\xff", 11, 0, 0, 0);
+            break;
+        case 128: // Below sets 128K Ram (0x3f)                              v
+            wch_link_command((libusb_device_handle *)dev, "\x81\x06\x08\x02\x3f\xff\xff\xff\xff\xff\xff", 11, 0, 0, 0);
+            break;
+
+        default: // Do nothing
+            break;
+    }
+
     wch_link_command(
-        (libusb_device_handle *)dev, "\x81\x06\x01\x01", 4, 0, 0,
-        0
+        (libusb_device_handle *)dev, "\x81\x06\x01\x01", 4, 0, 0, 0
     ); // Not sure why but it seems to work better when we request twice.
 
     // This contains the write data quantity, in bytes.  (The last 2 octets)
