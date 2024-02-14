@@ -41,6 +41,6 @@ All platforms use the Makefile to build
 
 Windows: this requires mingw-w64-x86-64-dev gcc-mingw-w64-x86-64 and libusb-1.0
 
-Linux: this requires libusb, Ubuntu: libusb-1.0-0-dev, Fedora: libusb1-devel
+Linux: this requires libusb & libudev, Ubuntu: libusb-1.0-0-dev libudev-dev, Fedora: libusb1-devel systemd-devel
 
 MacOS: libusb also required, unknown install details
