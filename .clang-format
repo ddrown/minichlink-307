@@ -9,15 +9,14 @@ AccessModifierOffset: -4
 
 # Basic general rules
 ColumnLimit: '120'
-TabWidth: 4
-UseTab: AlignWithSpaces 
-BreakBeforeBraces: Allman
+UseTab: Never
+BreakBeforeBraces: Attach
 PointerAlignment: Right
 MaxEmptyLinesToKeep: 2
 IndentCaseLabels: true
 
 # Allignment rules
-AlignAfterOpenBracket: DontAlign
+AlignAfterOpenBracket: BlockIndent
 AlignTrailingComments: false
 AlignConsecutiveAssignments: false
 AlignConsecutiveMacros: false
@@ -29,7 +28,7 @@ SpaceInEmptyParentheses: false
 SpacesInAngles: true
 SpacesInCStyleCastParentheses: false
 SpacesInContainerLiterals: true
-SpacesInParentheses: true
+SpacesInParentheses: false
 SpacesInSquareBrackets: false
 
 # Short statement rules
@@ -46,3 +45,4 @@ BreakBeforeBinaryOperators: None
 BreakConstructorInitializers: BeforeComma
 ExperimentalAutoDetectBinPacking: false
 NamespaceIndentation: None
+IncludeBlocks: Preserve

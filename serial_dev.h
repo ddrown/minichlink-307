@@ -9,10 +9,10 @@
 #define IS_WINDOWS
 #define DEFAULT_SERIAL_NAME "\\\\.\\COM3"
 #else
-#include <unistd.h>
-#include <termios.h>
 #include <fcntl.h>
 #include <sys/ioctl.h>
+#include <termios.h>
+#include <unistd.h>
 #define IS_POSIX
 #define DEFAULT_SERIAL_NAME "/dev/ttyACM0"
 #endif
@@ -21,7 +21,7 @@
 #include <stdio.h>
 
 typedef struct {
-    const char* port;
+    const char *port;
     unsigned baud;
 #ifdef IS_WINDOWS
     HANDLE handle;
@@ -31,13 +31,13 @@ typedef struct {
 } serial_dev_t;
 
 /* returns 0 if OK */
-int serial_dev_create(serial_dev_t *dev, const char* port, unsigned baud);
+int serial_dev_create(serial_dev_t *dev, const char *port, unsigned baud);
 /* returns 0 if OK */
 int serial_dev_open(serial_dev_t *dev);
 /* returns -1 on write error */
-int serial_dev_write(serial_dev_t *dev, const void* data, size_t len);
+int serial_dev_write(serial_dev_t *dev, const void *data, size_t len);
 /* returns -1 on read error */
-int serial_dev_read(serial_dev_t *dev, void* data, size_t len);
+int serial_dev_read(serial_dev_t *dev, void *data, size_t len);
 /* returns -1 on reset error */
 int serial_dev_do_dtr_reset(serial_dev_t *dev);
 /* returns -1 on flush error */
