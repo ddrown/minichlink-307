@@ -33,6 +33,7 @@ Usage: minichlink [args]
    Note: for memory addresses, you can use 'flash' 'launcher' 'bootloader' 'option' 'ram' and say "ram+0x10" for instance
    For filename, you can use - for raw or + for hex.
  -T is a terminal. This MUST be the last argument.
+ -K <KB Ram> - RAM/flash split, Valid arguments are 32/64/128/192
 ```
  
 ## Build info
